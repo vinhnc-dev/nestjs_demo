@@ -1,5 +1,6 @@
 import { IsDate, IsEmail, IsEnum, IsInt, IsOptional, IsString } from "class-validator";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Image } from "src/images/images.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ROLE } from "./users.constant";
 
 @Entity('users')
@@ -32,4 +33,7 @@ export class User{
   @IsDate()
   @IsOptional()
   createdAt?: Date;
+
+  @OneToMany(() => Image, (images) => images.user)
+  images: Image[]
 }

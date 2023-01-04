@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { getConnectionOptions } from 'typeorm';
 import { UploadFilesModule } from './upload-files/upload-files.module';
+import { ImagesModule } from './images/images.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UploadFilesModule } from './upload-files/upload-files.module';
 UsersModule,
 AuthModule,
 UploadFilesModule,
+ImagesModule,
 ],
   controllers: [AuthController],
   providers: [AuthService, JwtService],

@@ -16,7 +16,7 @@ export class UserController {
         type: GetUserOutput,
     })
     @Get()
-    async getUser(@Body() input: {email: string}){        
-        return this.userService.getUserByEmail(input.email);
+    async getUser(){        
+        return this.userService.getUser(1);
     }
 }

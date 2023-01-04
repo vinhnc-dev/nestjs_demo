@@ -1,10 +1,10 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class createUsers1669950821032 implements MigrationInterface {
+export class createImagesTable1672814626368 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: 'users',
+            name: 'images',
             columns: [
                 {
                     isNullable: false,
@@ -16,37 +16,27 @@ export class createUsers1669950821032 implements MigrationInterface {
                 },
                 {
                     isNullable: false,
-                    name: 'name',
-                    type: 'varchar(60)',
+                    name: 'filename',
+                    type: 'varchar(260)',
                 },
                 {
                     isNullable: false,
-                    name: 'email',
-                    type: 'varchar(60)',
-                    isUnique: true,
+                    name: 'originalname',
+                    type: 'varchar(260)',
                 },
                 {
                     isNullable: false,
-                    name: 'password',
-                    type: 'varchar(60)',
+                    name: 'path',
+                    type: 'varchar(260)',
                 },
                 {
                     isNullable: false,
-                    name: 'phone',
-                    type: 'varchar(15)',
-                    isUnique: true,
+                    name: 'size',
+                    type: 'int',
                 },
                 {
-                    isNullable: false,
-                    name: 'role',
-                    type: 'enum',
-                    enum: ['admin', 'user'],
-                },
-                {
-                    isNullable: false,
-                    name: 'active',
-                    type: 'enum',
-                    enum: ['true', 'false'],
+                    name: 'user_id',
+                    type: 'int',
                 },
                 {
                     name: 'created_at',
@@ -59,7 +49,7 @@ export class createUsers1669950821032 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('users')
+        await queryRunner.dropTable('images')
     }
 
 }
