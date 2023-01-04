@@ -19,11 +19,11 @@ import { ImagesModule } from './images/images.module';
         } as TypeOrmModuleOptions;
       },
     }),
-UsersModule,
-AuthModule,
-UploadFilesModule,
-ImagesModule,
-],
+    UsersModule,
+    AuthModule,
+    UploadFilesModule,
+    ImagesModule,
+  ],
   controllers: [AuthController],
   providers: [AuthService, JwtService],
 })

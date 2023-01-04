@@ -1,10 +1,17 @@
-import { IsDate, IsEmail, IsEnum, IsInt, IsOptional, IsString } from "class-validator";
-import { Image } from "src/images/images.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { ROLE } from "./users.constant";
+import {
+  IsDate,
+  IsEmail,
+  IsEnum,
+  IsInt,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { Image } from 'src/images/images.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ROLE } from './users.constant';
 
 @Entity('users')
-export class User{
+export class User {
   @PrimaryGeneratedColumn()
   @IsInt()
   id: number;
@@ -29,11 +36,11 @@ export class User{
   @IsEnum(ROLE)
   role: string;
 
-  @Column({ name : 'created_at'})
+  @Column({ name: 'created_at' })
   @IsDate()
   @IsOptional()
   createdAt?: Date;
 
   @OneToMany(() => Image, (images) => images.user)
-  images: Image[]
+  images: Image[];
 }

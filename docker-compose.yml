@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 networks:
   my_network:
     driver: bridge
@@ -21,7 +21,7 @@ services:
     volumes:
       - /home/htv-vinhnc/workspace/mysql:/var/lib/mysql/
   # app:
-  #   build: 
+  #   build:
   #     dockerfile: ./Dockerfile
   #   networks:
   #     - my_network
@@ -29,5 +29,5 @@ services:
   #   restart: always
   #   depends_on:
   #     - database
-  #   ports: 
+  #   ports:
   #     - 3000:3000

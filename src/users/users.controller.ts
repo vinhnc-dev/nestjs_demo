@@ -8,15 +8,15 @@ import { GetUserOutput } from './dto/user.dto';
 @Controller('user')
 @ApiTags('Users')
 export class UserController {
-    constructor (private readonly userService: UserService){}
-    @UseGuards(RolesGuard)
-    @Roles('admin')
-    @ApiResponse({
-        status: 200,
-        type: GetUserOutput,
-    })
-    @Get()
-    async getUser(){        
-        return this.userService.getUser(1);
-    }
+  constructor(private readonly userService: UserService) {}
+  @UseGuards(RolesGuard)
+  @Roles('admin')
+  @ApiResponse({
+    status: 200,
+    type: GetUserOutput,
+  })
+  @Get()
+  async getUser() {
+    return this.userService.getUser(1);
+  }
 }

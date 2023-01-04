@@ -1,9 +1,22 @@
-import { IsDate, IsEmail, IsEnum, IsInt, IsOptional, IsString } from "class-validator";
-import { User } from "../users/users.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  IsDate,
+  IsEmail,
+  IsEnum,
+  IsInt,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { User } from '../users/users.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('images')
-export class Image{
+export class Image {
   @PrimaryGeneratedColumn()
   @IsInt()
   id: number;
@@ -24,12 +37,17 @@ export class Image{
   @IsInt()
   size: number;
 
-  @Column({ name : 'created_at'})
+  @Column({ name: 'created_at' })
   @IsDate()
   @IsOptional()
   createdAt?: Date;
 
-  @ManyToOne(() => User, (user) => user.images, {cascade: true })
-  @JoinColumn({name: 'user_id', referencedColumnName: 'id'})
-  user: User
+  @ManyToOne(() => User, (user) => user.images, {
+    cascade: true,
+  })
+  @JoinColumn({
+    name: 'user_id',
+    referencedColumnName: 'id',
+  })
+  user: User;
 }

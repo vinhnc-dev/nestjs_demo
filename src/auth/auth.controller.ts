@@ -8,17 +8,17 @@ import { RegisterInput } from './dto/register.input';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
-    @AllowUnauthorized()
-    @Post('login')
-    public async login(@Body() input: LoginInput) {            
-        return await this.authService.validateUser(input);
-    }
+  @AllowUnauthorized()
+  @Post('login')
+  public async login(@Body() input: LoginInput) {
+    return await this.authService.validateUser(input);
+  }
 
-    @AllowUnauthorized()
-    @Post('register')
-      public async register(@Body() input: RegisterInput) {      
+  @AllowUnauthorized()
+  @Post('register')
+  public async register(@Body() input: RegisterInput) {
     return await this.authService.register(input);
   }
 }

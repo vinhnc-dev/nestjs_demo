@@ -1,19 +1,19 @@
-import { IsEmail, IsString, MaxLength } from "class-validator";
+import { IsEmail, IsString, MaxLength } from 'class-validator';
 
 export class RegisterInput {
   @IsString()
   @MaxLength(60)
   name: string;
 
-  @IsEmail() 
+  @IsEmail()
   @MaxLength(60)
   email: string;
 
-  @IsString() 
+  @IsString()
   @MaxLength(60)
   password: string;
 
-  @IsString() 
+  @IsString()
   @MaxLength(15)
   phone: string;
 }
