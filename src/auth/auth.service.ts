@@ -5,12 +5,14 @@ import { UserService } from '../users/users.service';
 import { RegisterInput } from './dto/register.input';
 import { User } from '../users/users.entity';
 import { ROLE } from '../users/users.constant';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly usersService: UserService
+    private readonly usersService: UserService,
+    private readonly mailService: MailService
   ) {}
 
   async validateUser(input: LoginInput) {
@@ -18,6 +20,7 @@ export class AuthService {
     if (user && user.password === input.password) {
       const token = this.jwtService.sign(
         {
+          id: user.id,
           email: user.email,
           password: user.password,
           role: user.role,
@@ -26,10 +29,13 @@ export class AuthService {
           secret: 'JWT_SECRET_KEY',
         }
       );
-
+      await this.mailService.sendUserConfirmation(user, token);
       return token;
     }
-    return null;
+    throw new HttpException(
+      'Email or password is invalid!',
+      HttpStatus.BAD_REQUEST
+    );
   }
 
   async register(input: RegisterInput): Promise<boolean> {

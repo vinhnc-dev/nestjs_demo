@@ -8,7 +8,8 @@ export class UploadFilesService {
   async updateAvatarForUser(
     file: Express.Multer.File,
     userId: number
-  ): Promise<void> {
+  ): Promise<boolean> {
     await this.ImagesService.addImage(file, userId);
+    return true;
   }
 }

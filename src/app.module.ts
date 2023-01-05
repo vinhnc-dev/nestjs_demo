@@ -8,6 +8,8 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { getConnectionOptions } from 'typeorm';
 import { UploadFilesModule } from './upload-files/upload-files.module';
 import { ImagesModule } from './images/images.module';
+import { MailModule } from './mail/mail.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -23,6 +25,10 @@ import { ImagesModule } from './images/images.module';
     AuthModule,
     UploadFilesModule,
     ImagesModule,
+    MailModule,
+    ConfigModule.forRoot({
+      isGlobal: true, // no need to import into other modules
+    }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtService],
