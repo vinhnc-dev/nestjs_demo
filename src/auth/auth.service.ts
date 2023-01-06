@@ -5,14 +5,12 @@ import { UserService } from '../users/users.service';
 import { RegisterInput } from './dto/register.input';
 import { User } from '../users/users.entity';
 import { ROLE } from '../users/users.constant';
-import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly usersService: UserService,
-    private readonly mailService: MailService
+    private readonly usersService: UserService
   ) {}
 
   async validateUser(input: LoginInput) {
@@ -29,7 +27,6 @@ export class AuthService {
           secret: 'JWT_SECRET_KEY',
         }
       );
-      await this.mailService.sendUserConfirmation(user, token);
       return token;
     }
     throw new HttpException(

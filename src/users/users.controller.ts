@@ -5,12 +5,15 @@ import { UserService } from './users.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUserOutput } from './dto/user.dto';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt.guard';
 
 @Controller('user')
 @ApiTags('Users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
   @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @Roles('admin')
   @ApiResponse({
     status: 200,
