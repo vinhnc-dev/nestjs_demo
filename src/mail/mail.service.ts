@@ -9,13 +9,13 @@ export class MailService {
     private readonly mailerService: MailerService,
     private readonly userService: UserService
   ) {}
-  async sendUserConfirmation(userId: number) {
+  async sendLinkResetPassword(userId: number) {
     const user = await this.userService.getUserById(userId);
-    const url = `google.com`;
+    const url = `${process.env.DOMAIN}?resetToken=${user.resetPasswordToken}`;
 
     await this.mailerService.sendMail({
       to: user.email,
-      subject: 'Welcome to Nice App! Confirm your Email',
+      subject: 'Please change your password via the link below.',
       template: './confirmation',
       context: {
         name: user.name,

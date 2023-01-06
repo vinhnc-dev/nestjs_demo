@@ -6,6 +6,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUserOutput } from './dto/user.dto';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt.guard';
+import { ResetPasswordInput } from './dto/reset-password.input';
 
 @Controller('user')
 @ApiTags('Users')
@@ -24,8 +25,15 @@ export class UserController {
     return this.userService.getUser(user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async getLinkResetPassword(@Body() input: ResetPasswordInput) {
+    return this.userService.getLinkResetPassword(input.email);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Put()
-  async resetUserPassword(@CurrentUser() user: { id }) {
-    return this.userService.getUser(user.id);
+  async resetUserPassword(@Body() input: ResetPasswordInput) {
+    return this.userService.getResetPassword(input.email);
   }
 }

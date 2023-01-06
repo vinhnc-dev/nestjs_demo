@@ -49,6 +49,11 @@ export class createUsers1669950821032 implements MigrationInterface {
             enum: ['true', 'false'],
           },
           {
+            isNullable: true,
+            name: 'reset_password_token',
+            type: 'varchar(11)',
+          },
+          {
             name: 'created_at',
             type: 'datetime',
             default: 'CURRENT_TIMESTAMP',

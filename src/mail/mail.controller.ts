@@ -9,6 +9,6 @@ export class MailController {
   @UseGuards()
   @Post()
   async sendMailResetPassword(@CurrentUser() user: { id }) {
-    await this.mailService.sendUserConfirmation(user.id);
+    await this.mailService.sendLinkResetPassword(user.id);
   }
 }
