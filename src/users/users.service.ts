@@ -4,7 +4,9 @@ import { RegisterInput } from '../auth/dto/register.input';
 import { Repository } from 'typeorm';
 import { ROLE } from './users.constant';
 import { User } from './users.entity';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from '../mail/mail.service';
+import { resetPasswordInput } from './dto/reset-password.input';
+import { sendMailOption } from '../mail/mail.model';
 
 @Injectable()
 export class UserService {
@@ -67,6 +69,52 @@ export class UserService {
 
     user.resetPasswordToken = resetPasswordToken;
     await this.usersRepository.save(user);
-    await this.mailService.sendLinkResetPassword;
+
+    const urlResetPassword = `${process.env.DOMAIN}/reset-pw?resetToken=${user.resetPasswordToken}`;
+    const sendMailResetPasswordOption: sendMailOption = {
+      to: user.email,
+      subject: 'Please change your password via the link below.',
+      template: './confirmation',
+      context: {
+        name: user.name,
+        url: urlResetPassword,
+      },
+    };
+    await this.mailService.sendLinkResetPassword(sendMailResetPasswordOption);
+  }
+
+  async isAllowResetPassword(token: string) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        resetPasswordToken: token,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        'token reset is incorrect!',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+    return true;
+  }
+
+  async resetPassword(token: string, input: resetPasswordInput) {
+    const user = await this.usersRepository.findOne({
+      where: {
+        resetPasswordToken: token,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        'token reset is incorrect!',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
+    user.password = input.newPassword;
+    await this.usersRepository.save(user);
+    return true;
   }
 }

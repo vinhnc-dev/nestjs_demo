@@ -1,7 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -22,10 +22,10 @@ import { ConfigModule } from '@nestjs/config';
       },
     }),
     UsersModule,
+    MailModule,
     AuthModule,
     UploadFilesModule,
     ImagesModule,
-    MailModule,
     ConfigModule.forRoot({
       isGlobal: true, // no need to import into other modules
     }),

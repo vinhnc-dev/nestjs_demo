@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { Roles } from '../auth/guards/role-guard/roles.decorator';
 import { RolesGuard } from '../auth/guards/role-guard/roles.guard';
 import { UserService } from './users.service';
@@ -6,7 +15,10 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUserOutput } from './dto/user.dto';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt.guard';
-import { ResetPasswordInput } from './dto/reset-password.input';
+import {
+  getLinkResetPasswordInput,
+  resetPasswordInput,
+} from './dto/reset-password.input';
 
 @Controller('user')
 @ApiTags('Users')
@@ -26,14 +38,23 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post()
-  async getLinkResetPassword(@Body() input: ResetPasswordInput) {
+  @Post('link-reset-pw')
+  async getLinkResetPassword(@Body() input: getLinkResetPasswordInput) {
     return this.userService.getLinkResetPassword(input.email);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put()
-  async resetUserPassword(@Body() input: ResetPasswordInput) {
-    return this.userService.getResetPassword(input.email);
+  @Get('reset-pw')
+  async isAllowResetPassword(@Query('resetToken') resetToken: string) {
+    return this.userService.isAllowResetPassword(resetToken);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('reset-pw')
+  async resetPassword(
+    @Query('resetToken') resetToken: string,
+    @Body() input: resetPasswordInput
+  ) {
+    return this.userService.resetPassword(resetToken, input);
   }
 }
