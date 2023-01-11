@@ -5,7 +5,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { Roles } from '../auth/guards/role-guard/roles.decorator';
@@ -33,7 +32,7 @@ export class UserController {
     type: GetUserOutput,
   })
   @Get()
-  async getUser(@CurrentUser() user: { id }) {
+  async getUser(@CurrentUser() user: { id: number }) {
     return this.userService.getUser(user.id);
   }
 
@@ -44,15 +43,15 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('reset-pw')
-  async isAllowResetPassword(@Query('resetToken') resetToken: string) {
+  @Get('reset-pw/:resetToken')
+  async isAllowResetPassword(@Param('resetToken') resetToken: string) {
     return this.userService.isAllowResetPassword(resetToken);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('reset-pw')
+  @Put('reset-pw/:resetToken')
   async resetPassword(
-    @Query('resetToken') resetToken: string,
+    @Param('resetToken') resetToken: string,
     @Body() input: resetPasswordInput
   ) {
     return this.userService.resetPassword(resetToken, input);

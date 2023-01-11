@@ -39,6 +39,11 @@ export class createImagesTable1672814626368 implements MigrationInterface {
             type: 'int',
           },
           {
+            isNullable: false,
+            name: 'classify',
+            type: 'varchar(10)',
+          },
+          {
             name: 'created_at',
             type: 'datetime',
             default: 'CURRENT_TIMESTAMP',

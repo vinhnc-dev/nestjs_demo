@@ -9,6 +9,7 @@ import {
 import { User } from '../users/users.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -36,6 +37,10 @@ export class Image {
   @Column()
   @IsInt()
   size: number;
+
+  @Column()
+  @IsString()
+  classify: string;
 
   @Column({ name: 'created_at' })
   @IsDate()

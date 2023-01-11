@@ -8,7 +8,14 @@ import {
   MaxLength,
 } from 'class-validator';
 import { Image } from 'src/images/images.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ROLE } from './users.constant';
 
 @Entity('users')
@@ -46,10 +53,19 @@ export class User {
   @MaxLength(11)
   resetPasswordToken: string;
 
+  @Column({ name: 'expire_date_token' })
+  @IsDate()
+  expireDateToken: Date;
+
   @Column({ name: 'created_at' })
   @IsDate()
   @IsOptional()
   createdAt?: Date;
+
+  @Column({ name: 'updated_at' })
+  @IsDate()
+  @IsOptional()
+  updatedAt?: Date;
 
   @OneToMany(() => Image, (images) => images.user)
   images: Image[];

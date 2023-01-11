@@ -54,7 +54,18 @@ export class createUsers1669950821032 implements MigrationInterface {
             type: 'varchar(11)',
           },
           {
+            isNullable: true,
+            name: 'expire_date_token',
+            type: 'datetime',
+          },
+          {
             name: 'created_at',
+            type: 'datetime',
+            default: 'CURRENT_TIMESTAMP',
+            isNullable: false,
+          },
+          {
+            name: 'Updated_at',
             type: 'datetime',
             default: 'CURRENT_TIMESTAMP',
             isNullable: false,

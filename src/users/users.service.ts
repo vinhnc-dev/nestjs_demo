@@ -66,11 +66,14 @@ export class UserService {
     }
 
     const resetPasswordToken = Math.random().toString(36).substr(2);
+    const exprireDateToken = new Date();
+    exprireDateToken.setMinutes(exprireDateToken.getMinutes() + 15);
 
     user.resetPasswordToken = resetPasswordToken;
+    user.expireDateToken = exprireDateToken;
     await this.usersRepository.save(user);
 
-    const urlResetPassword = `${process.env.DOMAIN}/reset-pw?resetToken=${user.resetPasswordToken}`;
+    const urlResetPassword = `${process.env.DOMAIN}/reset-pw/${user.resetPasswordToken}`;
     const sendMailResetPasswordOption: sendMailOption = {
       to: user.email,
       subject: 'Please change your password via the link below.',
@@ -90,7 +93,12 @@ export class UserService {
       },
     });
 
-    if (!user) {
+    const currentTime = new Date();
+
+    if (
+      user.resetPasswordToken != token &&
+      user.expireDateToken < currentTime
+    ) {
       throw new HttpException(
         'token reset is incorrect!',
         HttpStatus.BAD_REQUEST
@@ -106,7 +114,12 @@ export class UserService {
       },
     });
 
-    if (!user) {
+    const currentTime = new Date();
+
+    if (
+      user.resetPasswordToken != token &&
+      user.expireDateToken < currentTime
+    ) {
       throw new HttpException(
         'token reset is incorrect!',
         HttpStatus.BAD_REQUEST
@@ -114,6 +127,7 @@ export class UserService {
     }
 
     user.password = input.newPassword;
+    user.updatedAt = new Date();
     await this.usersRepository.save(user);
     return true;
   }

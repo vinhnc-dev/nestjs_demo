@@ -5,11 +5,12 @@ import { ImagesService } from 'src/images/images.service';
 export class UploadFilesService {
   constructor(private readonly ImagesService: ImagesService) {}
 
-  async updateAvatarForUser(
-    file: Express.Multer.File,
-    userId: number
+  async updateImagesForUser(
+    images: Array<Express.Multer.File>,
+    userId: number,
+    classify: string
   ): Promise<boolean> {
-    await this.ImagesService.addImage(file, userId);
+    await this.ImagesService.addImages(images, userId, classify);
     return true;
   }
 }
