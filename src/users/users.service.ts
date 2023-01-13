@@ -96,7 +96,7 @@ export class UserService {
     const currentTime = new Date();
 
     if (
-      user.resetPasswordToken != token &&
+      user.resetPasswordToken != token ||
       user.expireDateToken < currentTime
     ) {
       throw new HttpException(
@@ -117,7 +117,7 @@ export class UserService {
     const currentTime = new Date();
 
     if (
-      user.resetPasswordToken != token &&
+      user.resetPasswordToken != token ||
       user.expireDateToken < currentTime
     ) {
       throw new HttpException(
