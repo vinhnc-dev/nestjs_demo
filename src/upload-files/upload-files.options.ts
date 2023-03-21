@@ -23,3 +23,17 @@ export const optionImages = {
     },
   }),
 };
+
+export function optionUpload(destination: string) {
+  return {
+    storage: diskStorage({
+      destination: destination,
+      filename: (request, file, callback) => {
+        const currentTime = new Date().getTime();
+        const type = file.mimetype.split('/');
+        const filename = `${currentTime}-image.${type[1]}`;
+        callback(null, filename);
+      },
+    }),
+  };
+}

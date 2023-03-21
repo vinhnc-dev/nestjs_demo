@@ -10,6 +10,7 @@ import { UploadFilesModule } from './upload-files/upload-files.module';
 import { ImagesModule } from './images/images.module';
 import { MailModule } from './mail/mail.module';
 import { ConfigModule } from '@nestjs/config';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true, // no need to import into other modules
     }),
+    EventEmitterModule.forRoot(),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtService],

@@ -66,11 +66,11 @@ export class UserService {
     }
 
     const resetPasswordToken = Math.random().toString(36).substr(2);
-    const exprireDateToken = new Date();
-    exprireDateToken.setMinutes(exprireDateToken.getMinutes() + 15);
+    const expiryDateToken = new Date();
+    expiryDateToken.setMinutes(expiryDateToken.getMinutes() + 15);
 
     user.resetPasswordToken = resetPasswordToken;
-    user.expireDateToken = exprireDateToken;
+    user.expireDateToken = expiryDateToken;
     await this.usersRepository.save(user);
 
     const urlResetPassword = `${process.env.DOMAIN}/reset-pw/${user.resetPasswordToken}`;

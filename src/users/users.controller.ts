@@ -5,13 +5,14 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { Roles } from '../auth/guards/role-guard/roles.decorator';
 import { RolesGuard } from '../auth/guards/role-guard/roles.guard';
 import { UserService } from './users.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { GetUserOutput } from './dto/user.dto';
+import { GetNewCounselingBookingsInput, GetUserOutput } from './dto/user.dto';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt.guard';
 import {
@@ -26,13 +27,18 @@ export class UserController {
 
   @UseGuards(RolesGuard)
   @UseGuards(JwtAuthGuard)
-  @Roles('admin')
+  @Roles('user')
   @ApiResponse({
     status: 200,
     type: GetUserOutput,
   })
   @Get()
-  async getUser(@CurrentUser() user: { id: number }) {
+  async getUser(
+    @CurrentUser() user: { id: number },
+    @Query() params: GetNewCounselingBookingsInput
+  ) {
+    console.log(params);
+
     return this.userService.getUser(user.id);
   }
 
@@ -49,9 +55,9 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('reset-pw/:resetToken')
+  @Put('reset-pw')
   async resetPassword(
-    @Param('resetToken') resetToken: string,
+    @Query() resetToken: string,
     @Body() input: resetPasswordInput
   ) {
     return this.userService.resetPassword(resetToken, input);

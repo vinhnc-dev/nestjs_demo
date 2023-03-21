@@ -1,6 +1,13 @@
-import { IsArray, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 
 const stringToArray = ({ value }) => {
   if (typeof value === 'string') {
@@ -26,4 +33,20 @@ export class GetUserOutput {
   @IsString()
   @ApiProperty()
   role: string;
+}
+
+export class GetNewCounselingBookingsInput {
+  @IsInt()
+  @Type(() => Number)
+  @ApiProperty()
+  @Min(0)
+  maxCounselingBookingId: number;
+
+  @IsInt()
+  @IsOptional()
+  @Type(() => Number)
+  @ApiProperty({ required: false })
+  @Min(1)
+  @Max(100)
+  limit? = 50;
 }
